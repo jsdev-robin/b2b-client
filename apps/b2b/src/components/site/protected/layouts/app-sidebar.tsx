@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  AudioWaveform,
-  Command,
-  GalleryVerticalEnd,
-  Package,
-  Tag,
-} from 'lucide-react';
+import { AudioWaveform, Command, GalleryVerticalEnd, Grid } from 'lucide-react';
 import * as React from 'react';
 
 import {
@@ -46,50 +40,9 @@ const data = {
   ],
   navMain: [
     {
-      title: 'Orders',
-      url: '#',
-      icon: Package,
-      items: [
-        {
-          title: 'Drafts',
-          url: '#',
-        },
-        {
-          title: 'Abandoned checkouts',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Products',
-      url: '#',
-      icon: Tag,
-      items: [
-        {
-          title: 'List',
-          url: '/account/dashboard/product/list',
-        },
-        {
-          title: 'Collections',
-          url: '/account/dashboard/product/collections',
-        },
-        {
-          title: 'Inventory',
-          url: '#',
-        },
-        {
-          title: 'Purchase orders',
-          url: '#',
-        },
-        {
-          title: 'Transfers',
-          url: '#',
-        },
-        {
-          title: 'Gift cards',
-          url: '#',
-        },
-      ],
+      title: 'Dashboard',
+      url: '/account/dashboard/overview',
+      icon: Grid,
     },
   ],
 };
