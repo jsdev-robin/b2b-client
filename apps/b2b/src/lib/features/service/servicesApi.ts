@@ -21,7 +21,9 @@ export const servicesApi = gatewayApi.injectEndpoints({
       query: ({ search, pagination }) => {
         const params = new URLSearchParams({
           ...(search && { q: String(search) }),
-          ...(pagination.pageIndex && { page: String(pagination.pageIndex) }),
+          ...(pagination.pageIndex && {
+            page: String(pagination.pageIndex + 1),
+          }),
           ...(pagination.pageSize && { limit: String(pagination.pageSize) }),
         });
 

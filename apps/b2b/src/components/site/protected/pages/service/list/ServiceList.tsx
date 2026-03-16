@@ -4,7 +4,12 @@ import { useFindServicesQuery } from '@/lib/features/service/servicesApi';
 import { Service } from '@/lib/features/service/types';
 import { Button } from '@repo/ui/components/button';
 import { ButtonGroup } from '@repo/ui/components/button-group';
-import { Card, CardContent, CardHeader } from '@repo/ui/components/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@repo/ui/components/card';
 import { Input } from '@repo/ui/components/input';
 import {
   Table,
@@ -34,8 +39,10 @@ const ServiceList = () => {
   const [globalFilter, setGlobalFilter] = React.useState('');
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 5,
   });
+
+  console.log(pagination);
 
   const { data } = useFindServicesQuery({
     search: globalFilter,
@@ -90,6 +97,7 @@ const ServiceList = () => {
       globalFilter,
       pagination,
     },
+    manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
@@ -149,54 +157,54 @@ const ServiceList = () => {
             })}
           </TableBody>
         </Table>
-        <div className="flex items-center justify-between gap-2">
-          <span className="flex items-center gap-1">
-            <div>Page</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of{' '}
-              {table.getPageCount().toLocaleString()}
-            </strong>
-          </span>
-          <ButtonGroup>
-            <ButtonGroup>
-              <Button
-                onClick={() => table.firstPage()}
-                disabled={!table.getCanPreviousPage()}
-                size="icon"
-              >
-                <ChevronsLeft />
-              </Button>
-            </ButtonGroup>
-            <ButtonGroup>
-              <Button
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-                size="icon"
-              >
-                <ChevronLeft />
-              </Button>
-            </ButtonGroup>
-            <ButtonGroup>
-              <Button
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-                size="icon"
-              >
-                <ChevronRight />
-              </Button>
-            </ButtonGroup>
-            <ButtonGroup>
-              <Button
-                onClick={() => table.lastPage()}
-                disabled={!table.getCanNextPage()}
-                size="icon"
-              >
-                <ChevronsRight />
-              </Button>
-            </ButtonGroup>
-          </ButtonGroup>
-        </div>
       </CardContent>
+      <CardFooter className="w-full justify-between">
+        <span className="flex items-center gap-1">
+          <div>Page</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getPageCount().toLocaleString()}
+          </strong>
+        </span>
+        <ButtonGroup>
+          <ButtonGroup>
+            <Button
+              onClick={() => table.firstPage()}
+              disabled={!table.getCanPreviousPage()}
+              size="icon"
+            >
+              <ChevronsLeft />
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+              size="icon"
+            >
+              <ChevronLeft />
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+              size="icon"
+            >
+              <ChevronRight />
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button
+              onClick={() => table.lastPage()}
+              disabled={!table.getCanNextPage()}
+              size="icon"
+            >
+              <ChevronsRight />
+            </Button>
+          </ButtonGroup>
+        </ButtonGroup>
+      </CardFooter>
     </Card>
   );
 };
