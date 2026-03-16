@@ -26,14 +26,18 @@ import {
   PaginationState,
   useReactTable,
 } from '@tanstack/react-table';
+import { format, parseISO } from 'date-fns';
 import debounce from 'lodash.debounce';
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  Eye,
+  Pencil,
 } from 'lucide-react';
 import React from 'react';
+import ServiceTrashAction from './particles/ServiceTrashAction';
 
 const ServiceList = () => {
   const [globalFilter, setGlobalFilter] = React.useState('');
@@ -41,8 +45,6 @@ const ServiceList = () => {
     pageIndex: 0,
     pageSize: 5,
   });
-
-  console.log(pagination);
 
   const { data } = useFindServicesQuery({
     search: globalFilter,
@@ -82,8 +84,40 @@ const ServiceList = () => {
       {
         accessorFn: (row) => row.createdAt,
         id: 'createdAt',
-        cell: (info) => info.getValue(),
+        cell: ({ row }) =>
+          format(parseISO(row.original.createdAt), 'MMM dd, yyyy'),
         header: () => <span>Created</span>,
+      },
+      {
+        id: 'actions',
+        header: () => <span>Actions</span>,
+        cell: ({ row }) => {
+          const service = row.original;
+
+          return (
+            <ButtonGroup>
+              <ButtonGroup>
+                <Button
+                  size="icon-sm"
+                  variant="outline"
+                  onClick={() => console.log('view', service._id)}
+                >
+                  <Eye />
+                </Button>
+              </ButtonGroup>
+              <ButtonGroup>
+                <Button
+                  size="icon-sm"
+                  variant="outline"
+                  onClick={() => console.log('edit', service._id)}
+                >
+                  <Pencil />
+                </Button>
+              </ButtonGroup>
+              <ServiceTrashAction id={service._id} />
+            </ButtonGroup>
+          );
+        },
       },
     ],
     [],
@@ -171,7 +205,7 @@ const ServiceList = () => {
             <Button
               onClick={() => table.firstPage()}
               disabled={!table.getCanPreviousPage()}
-              size="icon"
+              size="icon-sm"
             >
               <ChevronsLeft />
             </Button>
@@ -180,7 +214,7 @@ const ServiceList = () => {
             <Button
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              size="icon"
+              size="icon-sm"
             >
               <ChevronLeft />
             </Button>
@@ -189,7 +223,7 @@ const ServiceList = () => {
             <Button
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              size="icon"
+              size="icon-sm"
             >
               <ChevronRight />
             </Button>
@@ -198,7 +232,7 @@ const ServiceList = () => {
             <Button
               onClick={() => table.lastPage()}
               disabled={!table.getCanNextPage()}
-              size="icon"
+              size="icon-sm"
             >
               <ChevronsRight />
             </Button>

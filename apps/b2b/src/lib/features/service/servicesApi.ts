@@ -34,7 +34,19 @@ export const servicesApi = gatewayApi.injectEndpoints({
       },
       providesTags: ['Services'],
     }),
+
+    deleteService: builder.mutation<SuccessResponse, string>({
+      query: (id) => ({
+        url: `b2b/services/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Services'],
+    }),
   }),
 });
 
-export const { useCreateServiceMutation, useFindServicesQuery } = servicesApi;
+export const {
+  useCreateServiceMutation,
+  useFindServicesQuery,
+  useDeleteServiceMutation,
+} = servicesApi;
