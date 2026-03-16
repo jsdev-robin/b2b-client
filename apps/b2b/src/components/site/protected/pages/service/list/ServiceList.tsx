@@ -60,7 +60,7 @@ const ServiceList = () => {
     category,
   });
 
-  const columns = React.useMemo<ColumnDef<Service, any>[]>(
+  const columns = React.useMemo<ColumnDef<Service, unknown>[]>(
     () => [
       {
         accessorFn: (row) => row.title,

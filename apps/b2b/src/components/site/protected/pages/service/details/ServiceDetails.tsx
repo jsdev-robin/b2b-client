@@ -32,8 +32,8 @@ const ServiceDetails = () => {
             <AlertCircleIcon />
             <AlertTitle>Failed to load service</AlertTitle>
             <AlertDescription>
-              We couldn't fetch the service details. The service may not exist
-              or the server is not responding. Please try again later.
+              We couldn&lsquo;t fetch the service details. The service may not
+              exist or the server is not responding. Please try again later.
             </AlertDescription>
           </Alert>
         ) : isLoading ? (
