@@ -35,7 +35,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
   endpoints: (builder) => ({
     signup: builder.mutation<SignupResponse, SingupRequest>({
       query: (body) => ({
-        url: '/auth/store/signup',
+        url: '/auth/admin/signup',
         method: 'POST',
         body,
       }),
@@ -51,7 +51,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     verify: builder.mutation<SuccessResponse, VerifyRequest>({
       query: ({ token, otp }) => ({
-        url: '/auth/store/signup/verify',
+        url: '/auth/admin/signup/verify',
         method: 'POST',
         body: { token, otp },
       }),
@@ -59,7 +59,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     signin: builder.mutation<SinginResponse, SinginRequest>({
       query: ({ email, password, remember }) => ({
-        url: '/auth/store/signin',
+        url: '/auth/admin/signin',
         method: 'POST',
         body: { email, password, remember },
       }),
@@ -67,7 +67,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     signout: builder.mutation<SuccessResponse, void>({
       query: () => ({
-        url: '/auth/store/signout',
+        url: '/auth/admin/signout',
         method: 'POST',
       }),
       invalidatesTags: ['User', 'Sessions'],
@@ -75,7 +75,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     signoutSession: builder.mutation<SuccessResponse, string>({
       query: (token) => ({
-        url: `/auth/store/signout/${token}`,
+        url: `/auth/admin/signout/${token}`,
         method: 'POST',
       }),
       invalidatesTags: ['User', 'Sessions'],
@@ -83,7 +83,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     signoutAllSession: builder.mutation<SuccessResponse, void>({
       query: () => ({
-        url: '/auth/store/signout-all',
+        url: '/auth/admin/signout-all',
         method: 'POST',
       }),
       invalidatesTags: ['User', 'Sessions'],
@@ -91,19 +91,19 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     refreshToken: builder.mutation<SuccessResponse, void>({
       query: () => ({
-        url: '/auth/store/refresh-token',
+        url: '/auth/admin/refresh-token',
         method: 'POST',
       }),
     }),
 
     findProfile: builder.query<FindProfileResponse, void>({
-      query: () => '/auth/store/profile',
+      query: () => '/auth/admin/profile',
       providesTags: ['User'],
     }),
 
     findSessions: builder.query<FindSessionsResponse, void>({
       query: () => ({
-        url: '/auth/store/sessions',
+        url: '/auth/admin/sessions',
         method: 'GET',
       }),
       providesTags: ['Sessions'],
@@ -111,7 +111,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     updateProfile: builder.mutation<SuccessResponse, UpdateProfileRequest>({
       query: (data) => ({
-        url: '/auth/store/profile',
+        url: '/auth/admin/profile',
         method: 'PATCH',
         body: data,
       }),
@@ -132,7 +132,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
       EmailRequest
     >({
       query: ({ email }) => ({
-        url: '/auth/store/passkey/authentication/start',
+        url: '/auth/admin/passkey/authentication/start',
         method: 'POST',
         body: { email },
       }),
@@ -143,7 +143,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
       VerifyAuthenticationResponseRquest
     >({
       query: ({ credential, email }) => ({
-        url: '/auth/store/passkey/authentication/finish',
+        url: '/auth/admin/passkey/authentication/finish',
         method: 'POST',
         body: { credential, email },
       }),
@@ -154,7 +154,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
       void
     >({
       query: () => ({
-        url: '/auth/store/passkey/registration/start',
+        url: '/auth/admin/passkey/registration/start',
         method: 'POST',
       }),
       invalidatesTags: ['User'],
@@ -165,7 +165,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
       VerifyRegistrationResponseRequest
     >({
       query: ({ credential }) => ({
-        url: '/auth/store/passkey/registration/finish',
+        url: '/auth/admin/passkey/registration/finish',
         method: 'POST',
         body: { credential },
       }),
@@ -173,13 +173,13 @@ export const userAuthApi = gatewayApi.injectEndpoints({
     }),
 
     findPasskeys: builder.query<FindPasskeysResponse, void>({
-      query: () => '/auth/store/passkeys',
+      query: () => '/auth/admin/passkeys',
       providesTags: ['Passkeys'],
     }),
 
     unregisterPasskey: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/auth/store/passkeys/${id}`,
+        url: `/auth/admin/passkeys/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Passkeys', 'User'],
@@ -190,7 +190,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
       StartPasswordResetRequest
     >({
       query: ({ email }) => ({
-        url: '/auth/store/password/reset/start',
+        url: '/auth/admin/password/reset/start',
         method: 'POST',
         body: { email },
       }),
@@ -201,7 +201,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
       FinishPasswordResetRequest
     >({
       query: ({ newPassword, confirmNewPassword, token }) => ({
-        url: `/auth/store/password/reset/finish/${token}`,
+        url: `/auth/admin/password/reset/finish/${token}`,
         method: 'PATCH',
         body: { newPassword, confirmNewPassword },
       }),
@@ -209,7 +209,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     changePassword: builder.mutation<SinginResponse, ChangePasswordRequest>({
       query: ({ currentPassword, newPassword, confirmNewPassword }) => ({
-        url: '/auth/store/password/change',
+        url: '/auth/admin/password/change',
         method: 'PATCH',
         body: { currentPassword, newPassword, confirmNewPassword },
       }),
@@ -218,7 +218,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
     startEmailChange: builder.mutation<SinginResponse, StartEmailChangeRequest>(
       {
         query: ({ newEmail, confirmEmail, password }) => ({
-          url: '/auth/store/email/change/start',
+          url: '/auth/admin/email/change/start',
           method: 'POST',
           body: { newEmail, confirmEmail, password },
         }),
@@ -230,7 +230,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
       FinishEmailChangeRequest
     >({
       query: ({ code, token }) => ({
-        url: `/auth/store/email/change/finish/${token}`,
+        url: `/auth/admin/email/change/finish/${token}`,
         method: 'PATCH',
         body: { code },
       }),
@@ -239,7 +239,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     disconnectOauth: builder.mutation<SinginResponse, DisconnectOauthRequest>({
       query: ({ email, provider }) => ({
-        url: '/auth/store/disconnect/oauth',
+        url: '/auth/admin/disconnect/oauth',
         method: 'PATCH',
         body: { email, provider },
       }),
@@ -248,7 +248,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     startEnabled2FA: builder.query<StartEnabled2FAResponse, void>({
       query: () => ({
-        url: '/auth/store/2fa/enabled/start',
+        url: '/auth/admin/2fa/enabled/start',
         method: 'GET',
       }),
     }),
@@ -258,7 +258,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
       Finish2FASetupRequestRequest
     >({
       query: ({ totp, secret }) => ({
-        url: '/auth/store/2fa/enabled/finish',
+        url: '/auth/admin/2fa/enabled/finish',
         method: 'PATCH',
         body: { totp, secret },
       }),
@@ -267,7 +267,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     handshake2FA: builder.mutation<SuccessResponse, Handshake2FARequest>({
       query: ({ totp }) => ({
-        url: '/auth/store/2fa/handshake/app',
+        url: '/auth/admin/2fa/handshake/app',
         method: 'POST',
         body: { totp },
       }),
@@ -275,7 +275,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     generateBackupCodes2FA: builder.mutation<SuccessResponse, void>({
       query: () => ({
-        url: '/auth/store/2fa/backup-codes',
+        url: '/auth/admin/2fa/backup-codes',
         method: 'PATCH',
       }),
       invalidatesTags: ['BackupCodes'],
@@ -283,7 +283,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     findBackupCodes2FA: builder.query<FindBackupCodes2FAResponse, void>({
       query: () => ({
-        url: '/auth/store/2fa/backup-codes',
+        url: '/auth/admin/2fa/backup-codes',
         method: 'GET',
       }),
 
@@ -295,7 +295,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
       HandshakeBackupCode2FARequest
     >({
       query: (data) => ({
-        url: '/auth/store/2fa/handshake/recovery',
+        url: '/auth/admin/2fa/handshake/recovery',
         method: 'POST',
         body: data,
       }),
@@ -303,7 +303,7 @@ export const userAuthApi = gatewayApi.injectEndpoints({
 
     disabled2FA: builder.mutation<SuccessResponse, void>({
       query: () => ({
-        url: `/auth/store/2fa/disabled`,
+        url: `/auth/admin/2fa/disabled`,
         method: 'PATCH',
       }),
       invalidatesTags: ['User', 'BackupCodes'],

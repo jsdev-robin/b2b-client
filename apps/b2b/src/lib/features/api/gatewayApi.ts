@@ -49,7 +49,7 @@ const baseQueryWithReauth: BaseQueryFn<
       const release = await mutex.acquire();
       try {
         const refreshResult = await rawBaseQuery(
-          { url: '/auth/store/refresh-token', method: 'POST' },
+          { url: '/auth/admin/refresh-token', method: 'POST' },
           api,
           extraOptions,
         );
@@ -106,14 +106,6 @@ const baseQueryWithRetry = retry(baseQueryWithReauth, {
 export const gatewayApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithRetry,
-  tagTypes: [
-    'User',
-    'Sessions',
-    'Passkeys',
-    'BackupCodes',
-    'Media',
-    'ProductDraft',
-    'ProductOption',
-  ],
+  tagTypes: ['User', 'Sessions', 'Passkeys', 'BackupCodes'],
   endpoints: () => ({}),
 });

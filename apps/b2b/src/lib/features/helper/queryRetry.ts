@@ -13,8 +13,8 @@ export const retryCondition = (
     return false;
   }
 
-  // Stop retrying after 10 attempts
-  if (attempt >= 10) {
+  // Stop retrying after 16 attempts
+  if (attempt >= 16) {
     return false;
   }
 
