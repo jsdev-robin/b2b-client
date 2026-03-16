@@ -2,7 +2,7 @@
 
 import { useFindServicesQuery } from '@/lib/features/service/servicesApi';
 import { Service } from '@/lib/features/service/types';
-import { Button } from '@repo/ui/components/button';
+import { Button, buttonVariants } from '@repo/ui/components/button';
 import { ButtonGroup } from '@repo/ui/components/button-group';
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
 } from '@repo/ui/components/card';
-import { Input } from '@repo/ui/components/input';
+import { DebouncedInput } from '@repo/ui/components/debounced-input';
 import {
   NativeSelect,
   NativeSelectOption,
@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from '@repo/ui/components/table';
+import { cn } from '@repo/ui/lib/utils';
 import {
   ColumnDef,
   flexRender,
@@ -31,7 +32,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { format, parseISO } from 'date-fns';
-import debounce from 'lodash.debounce';
 import {
   ChevronLeft,
   ChevronRight,
@@ -39,6 +39,7 @@ import {
   ChevronsRight,
   Eye,
 } from 'lucide-react';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import ServiceEditAction from './particles/ServiceEditAction';
 import ServiceTrashAction from './particles/ServiceTrashAction';
@@ -52,17 +53,12 @@ const ServiceList = () => {
   const [sort, setSort] = useState<string>('');
   const [category, setCategory] = useState<string>('');
 
-  const { data } = useFindServicesQuery({
+  const { data, isError, isLoading } = useFindServicesQuery({
     search: globalFilter,
     pagination,
     sort,
     category,
   });
-
-  const debouncedFilter = React.useMemo(
-    () => debounce((value: string) => setGlobalFilter(value), 300),
-    [],
-  );
 
   const columns = React.useMemo<ColumnDef<Service, any>[]>(
     () => [
@@ -105,13 +101,14 @@ const ServiceList = () => {
           return (
             <ButtonGroup>
               <ButtonGroup>
-                <Button
-                  size="icon-sm"
-                  variant="outline"
-                  onClick={() => console.log('view', service._id)}
+                <Link
+                  className={cn(
+                    buttonVariants({ size: 'icon-sm', variant: 'outline' }),
+                  )}
+                  href={`/account/dashboard/service/${service._id}`}
                 >
                   <Eye />
-                </Button>
+                </Link>
               </ButtonGroup>
               <ServiceEditAction service={service} />
               <ServiceTrashAction id={service._id} />
@@ -144,9 +141,9 @@ const ServiceList = () => {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between gap-4">
-          <Input
+          <DebouncedInput
             value={globalFilter ?? ''}
-            onChange={(e) => debouncedFilter(String(e.target.value))}
+            onChange={(value) => setGlobalFilter(String(value))}
             placeholder="Enter title for search"
           />
           <NativeSelect
@@ -211,22 +208,51 @@ const ServiceList = () => {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows.map((row) => {
-              return (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
+            {isLoading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : isError ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center text-red-500"
+                >
+                  Failed to load services
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No services found
+                </TableCell>
+              </TableRow>
+            ) : (
+              table.getRowModel().rows.map((row) => {
+                return (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })
+            )}
           </TableBody>
         </Table>
       </CardContent>
