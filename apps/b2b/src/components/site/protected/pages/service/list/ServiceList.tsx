@@ -12,6 +12,10 @@ import {
 } from '@repo/ui/components/card';
 import { Input } from '@repo/ui/components/input';
 import {
+  NativeSelect,
+  NativeSelectOption,
+} from '@repo/ui/components/native-select';
+import {
   Table,
   TableBody,
   TableCell,
@@ -36,19 +40,23 @@ import {
   Eye,
   Pencil,
 } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 import ServiceTrashAction from './particles/ServiceTrashAction';
 
 const ServiceList = () => {
-  const [globalFilter, setGlobalFilter] = React.useState('');
-  const [pagination, setPagination] = React.useState<PaginationState>({
+  const [globalFilter, setGlobalFilter] = useState('');
+  const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 5,
   });
+  const [sort, setSort] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
 
   const { data } = useFindServicesQuery({
     search: globalFilter,
     pagination,
+    sort,
+    category,
   });
 
   const debouncedFilter = React.useMemo(
@@ -143,10 +151,47 @@ const ServiceList = () => {
   return (
     <Card>
       <CardHeader>
-        <Input
-          value={globalFilter ?? ''}
-          onChange={(e) => debouncedFilter(String(e.target.value))}
-        />
+        <div className="flex items-center justify-between gap-4">
+          <Input
+            value={globalFilter ?? ''}
+            onChange={(e) => debouncedFilter(String(e.target.value))}
+          />
+          <NativeSelect
+            className="w-60"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <NativeSelectOption value="">All Categories</NativeSelectOption>
+            <NativeSelectOption value="manufacturing">
+              Manufacturing
+            </NativeSelectOption>
+            <NativeSelectOption value="logistics">Logistics</NativeSelectOption>
+            <NativeSelectOption value="it-services">
+              IT Services
+            </NativeSelectOption>
+            <NativeSelectOption value="consulting">
+              Consulting
+            </NativeSelectOption>
+            <NativeSelectOption value="wholesale">Wholesale</NativeSelectOption>
+            <NativeSelectOption value="marketing">Marketing</NativeSelectOption>
+            <NativeSelectOption value="finance">Finance</NativeSelectOption>
+          </NativeSelect>
+          <NativeSelect
+            className="52"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <NativeSelectOption value="">Default</NativeSelectOption>
+            <NativeSelectOption value="-createdAt">Latest</NativeSelectOption>
+            <NativeSelectOption value="createdAt">Oldest</NativeSelectOption>
+            <NativeSelectOption value="price">
+              Price: Low to High
+            </NativeSelectOption>
+            <NativeSelectOption value="-price">
+              Price: High to Low
+            </NativeSelectOption>
+          </NativeSelect>
+        </div>
       </CardHeader>
       <CardContent>
         <Table>

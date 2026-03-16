@@ -18,13 +18,15 @@ export const servicesApi = gatewayApi.injectEndpoints({
     }),
 
     findServices: builder.query<ServicesResponse, ServicesQueryParams>({
-      query: ({ search, pagination }) => {
+      query: ({ search, pagination, sort, category }) => {
         const params = new URLSearchParams({
           ...(search && { q: String(search) }),
           ...(pagination.pageIndex && {
             page: String(pagination.pageIndex + 1),
           }),
           ...(pagination.pageSize && { limit: String(pagination.pageSize) }),
+          ...(sort && { sort: String(sort) }),
+          ...(category && { category: String(category) }),
         });
 
         return {

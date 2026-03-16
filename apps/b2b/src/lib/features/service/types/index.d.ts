@@ -30,4 +30,6 @@ export interface ServicesResponse extends SuccessResponse {
 export interface ServicesQueryParams {
   search?: string;
   pagination: PaginationState;
+  sort: string;
+  category: string;
 }
