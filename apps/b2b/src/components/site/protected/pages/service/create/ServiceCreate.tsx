@@ -47,11 +47,19 @@ const ServiceCreateForm = () => {
   const [createService, { isLoading }] = useCreateServiceMutation();
 
   async function onSubmit(data: z.infer<typeof ServiceSchema>) {
-    await toast.promise(createService(data).unwrap(), {
-      loading: 'Creating Service...',
-      success: (res) => res?.message || SUCCESS_MESSAGE,
-      error: (err) => err?.data?.message || ERROR_MESSAGE,
-    });
+    await toast.promise(
+      createService(data)
+        .unwrap()
+        .then((res) => {
+          form.reset();
+          return res;
+        }),
+      {
+        loading: 'Creating Service...',
+        success: (res) => res?.message || SUCCESS_MESSAGE,
+        error: (err) => err?.data?.message || ERROR_MESSAGE,
+      },
+    );
   }
 
   return (
