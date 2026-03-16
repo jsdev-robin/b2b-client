@@ -1,6 +1,10 @@
 import { gatewayApi } from '../api/gatewayApi';
 import { SuccessResponse } from '../types';
-import { ServicesRequest } from './types';
+import {
+  ServicesQueryParams,
+  ServicesRequest,
+  ServicesResponse,
+} from './types';
 
 export const servicesApi = gatewayApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,16 +14,25 @@ export const servicesApi = gatewayApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Services'],
     }),
 
-    findService: builder.mutation<SuccessResponse, ServicesRequest>({
-      query: (data) => ({
-        url: `b2b/services`,
-        method: 'POST',
-        body: data,
-      }),
+    findServices: builder.query<ServicesResponse, ServicesQueryParams>({
+      query: ({ search, pagination }) => {
+        const params = new URLSearchParams({
+          ...(search && { q: String(search) }),
+          ...(pagination.pageIndex && { page: String(pagination.pageIndex) }),
+          ...(pagination.pageSize && { limit: String(pagination.pageSize) }),
+        });
+
+        return {
+          url: `b2b/services?${params.toString()}`,
+          method: 'GET',
+        };
+      },
+      providesTags: ['Services'],
     }),
   }),
 });
 
-export const { useCreateServiceMutation } = servicesApi;
+export const { useCreateServiceMutation, useFindServicesQuery } = servicesApi;

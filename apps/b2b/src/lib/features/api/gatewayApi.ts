@@ -106,6 +106,13 @@ const baseQueryWithRetry = retry(baseQueryWithReauth, {
 export const gatewayApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithRetry,
-  tagTypes: ['User', 'Sessions', 'Passkeys', 'BackupCodes'],
+  tagTypes: [
+    'User',
+    'Sessions',
+    'Passkeys',
+    'BackupCodes',
+    'Services',
+    'Service',
+  ],
   endpoints: () => ({}),
 });

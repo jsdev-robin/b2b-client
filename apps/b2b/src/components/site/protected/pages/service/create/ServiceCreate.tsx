@@ -184,7 +184,7 @@ const ServiceCreateForm = () => {
                   />
                 </Field>
                 <Field>
-                  <Button>
+                  <Button disabled={isLoading}>
                     {isLoading && <Spinner />}
                     Create Service
                   </Button>

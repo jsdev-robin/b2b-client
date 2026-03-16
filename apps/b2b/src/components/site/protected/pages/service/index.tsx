@@ -1,6 +1,7 @@
 'use client';
 
 import ServiceCreate from './create/ServiceCreate';
+import ServiceList from './list/ServiceList';
 
 const Services = () => {
   return (
@@ -10,7 +11,9 @@ const Services = () => {
           <div className="col-span-1">
             <ServiceCreate />
           </div>
-          <div className="col-span-2">dd</div>
+          <div className="col-span-2">
+            <ServiceList />
+          </div>
         </div>
       </div>
     </section>
