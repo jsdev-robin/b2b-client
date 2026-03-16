@@ -27,6 +27,12 @@ export interface ServicesResponse extends SuccessResponse {
   };
 }
 
+export interface ServiceResponse extends SuccessResponse {
+  payload: {
+    service: Service;
+  };
+}
+
 export interface ServicesQueryParams {
   search?: string;
   pagination: PaginationState;

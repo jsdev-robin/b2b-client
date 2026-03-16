@@ -34,19 +34,21 @@ import {
   NativeSelect,
   NativeSelectOption,
 } from '@repo/ui/components/native-select';
+import { Spinner } from '@repo/ui/components/spinner';
 import { Textarea } from '@repo/ui/components/textarea';
 import {
   ERROR_MESSAGE,
   SUCCESS_MESSAGE,
 } from '@repo/ui/constants/defaultMessage';
 import { Pencil } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
 
 const ServiceEditAction = ({ service }: { service: Service }) => {
   const [updateService, { isLoading }] = useUpdateServiceMutation();
+  const [open, setOpen] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof ServiceSchema>>({
     resolver: zodResolver(ServiceSchema),
@@ -81,6 +83,7 @@ const ServiceEditAction = ({ service }: { service: Service }) => {
         .unwrap()
         .then((res) => {
           form.reset();
+          setOpen(false);
           return res;
         }),
       {
@@ -92,7 +95,7 @@ const ServiceEditAction = ({ service }: { service: Service }) => {
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <ButtonGroup>
           <Button size="icon-sm" variant="outline" type="button">
@@ -223,7 +226,10 @@ const ServiceEditAction = ({ service }: { service: Service }) => {
                   />
                 </Field>
                 <Field>
-                  <Button>Create Service</Button>
+                  <Button disabled={isLoading || !form.formState.isDirty}>
+                    {isLoading && <Spinner />}
+                    Update Service
+                  </Button>
                 </Field>
               </FieldGroup>
             </FieldSet>

@@ -1,6 +1,7 @@
 import { gatewayApi } from '../api/gatewayApi';
 import { SuccessResponse } from '../types';
 import {
+  ServiceResponse,
   ServicesQueryParams,
   ServicesRequest,
   ServicesResponse,
@@ -37,6 +38,14 @@ export const servicesApi = gatewayApi.injectEndpoints({
       providesTags: ['Services'],
     }),
 
+    findOne: builder.query<ServiceResponse, string>({
+      query: (id) => ({
+        url: `b2b/services/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['Service'],
+    }),
+
     deleteService: builder.mutation<SuccessResponse, string>({
       query: (id) => ({
         url: `b2b/services/${id}`,
@@ -64,6 +73,7 @@ export const servicesApi = gatewayApi.injectEndpoints({
 export const {
   useCreateServiceMutation,
   useFindServicesQuery,
+  useFindOneQuery,
   useDeleteServiceMutation,
   useUpdateServiceMutation,
 } = servicesApi;
