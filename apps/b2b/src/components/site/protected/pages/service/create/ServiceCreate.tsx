@@ -1,5 +1,6 @@
 'use client';
 
+import { useCreateServiceMutation } from '@/lib/features/service/servicesApi';
 import { ServiceSchema } from '@/validators/ServiceSchema';
 import { Button } from '@repo/ui/components/button';
 import {
@@ -28,7 +29,13 @@ import {
   NativeSelect,
   NativeSelectOption,
 } from '@repo/ui/components/native-select';
+import { Spinner } from '@repo/ui/components/spinner';
 import { Textarea } from '@repo/ui/components/textarea';
+import {
+  ERROR_MESSAGE,
+  SUCCESS_MESSAGE,
+} from '@repo/ui/constants/defaultMessage';
+import { toast } from 'sonner';
 import z from 'zod';
 import {
   ServiceFormProvider,
@@ -37,9 +44,14 @@ import {
 
 const ServiceCreateForm = () => {
   const { form } = useServiceForm();
+  const [createService, { isLoading }] = useCreateServiceMutation();
 
   async function onSubmit(data: z.infer<typeof ServiceSchema>) {
-    console.log(data);
+    await toast.promise(createService(data).unwrap(), {
+      loading: 'Creating Service...',
+      success: (res) => res?.message || SUCCESS_MESSAGE,
+      error: (err) => err?.data?.message || ERROR_MESSAGE,
+    });
   }
 
   return (
@@ -164,7 +176,10 @@ const ServiceCreateForm = () => {
                   />
                 </Field>
                 <Field>
-                  <Button>Create Service</Button>
+                  <Button>
+                    {isLoading && <Spinner />}
+                    Create Service
+                  </Button>
                 </Field>
               </FieldGroup>
             </FieldSet>
