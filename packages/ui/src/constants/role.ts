@@ -1,5 +1,4 @@
 export enum ROLE {
   SUPER_ADMIN = 'SUPER_ADMIN',
-  STORE_OWNER = 'STORE_OWNER',
   GUEST = 'GUEST',
 }

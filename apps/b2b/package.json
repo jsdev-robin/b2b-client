@@ -9,19 +9,37 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@reduxjs/toolkit": "^2.11.2",
+    "@repo/ui": "workspace:*",
+    "@simplewebauthn/browser": "^13.3.0",
+    "@tanstack/react-table": "^8.21.3",
+    "async-mutex": "^0.5.0",
+    "cropperjs": "^2.1.0",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.577.0",
+    "next": "15.5.12",
     "react": "19.1.0",
+    "react-cropper": "^2.3.3",
+    "react-device-detect": "^2.2.3",
     "react-dom": "19.1.0",
-    "next": "15.5.12"
+    "react-dropzone": "^15.0.0",
+    "react-hook-form": "^7.71.2",
+    "react-muntaha-uploader": "^3.1.1",
+    "react-redux": "^9.2.0",
+    "socket.io-client": "^4.8.3",
+    "sonner": "^2.0.7",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.5.12",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
