@@ -6,8 +6,10 @@ import React, { createContext, useContext } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import z from 'zod';
 
+type ServiceFormType = z.infer<typeof ServiceSchema>;
+
 interface ServiceFormContextProps {
-  form: UseFormReturn<z.infer<typeof ServiceSchema>>;
+  form: UseFormReturn<ServiceFormType>;
 }
 
 const ServiceFormContext = createContext<ServiceFormContextProps | undefined>(
@@ -24,7 +26,7 @@ export const useServiceForm = () => {
 export const ServiceFormProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const form = useForm<z.infer<typeof ServiceSchema>>({
+  const form = useForm<ServiceFormType, undefined, ServiceFormType>({
     resolver: zodResolver(ServiceSchema),
     mode: 'onChange',
     defaultValues: {

@@ -14,5 +14,5 @@ export const ServiceSchema = z.object({
     .string()
     .nonempty('Description is required')
     .max(1000, 'Description is too long'),
-  confirmed: z.boolean(),
+  confirmed: z.boolean().optional(),
 });

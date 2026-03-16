@@ -5,7 +5,7 @@ export interface ServicesRequest {
   price: string;
   category: string;
   description: string;
-  confirmed: boolean;
+  confirmed?: boolean | undefined;
 }
 
 export interface Service {

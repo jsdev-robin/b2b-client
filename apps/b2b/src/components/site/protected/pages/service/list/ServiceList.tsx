@@ -38,9 +38,9 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Eye,
-  Pencil,
 } from 'lucide-react';
 import React, { useState } from 'react';
+import ServiceEditAction from './particles/ServiceEditAction';
 import ServiceTrashAction from './particles/ServiceTrashAction';
 
 const ServiceList = () => {
@@ -113,15 +113,7 @@ const ServiceList = () => {
                   <Eye />
                 </Button>
               </ButtonGroup>
-              <ButtonGroup>
-                <Button
-                  size="icon-sm"
-                  variant="outline"
-                  onClick={() => console.log('edit', service._id)}
-                >
-                  <Pencil />
-                </Button>
-              </ButtonGroup>
+              <ServiceEditAction service={service} />
               <ServiceTrashAction id={service._id} />
             </ButtonGroup>
           );
@@ -155,6 +147,7 @@ const ServiceList = () => {
           <Input
             value={globalFilter ?? ''}
             onChange={(e) => debouncedFilter(String(e.target.value))}
+            placeholder="Enter title for search"
           />
           <NativeSelect
             className="w-60"
