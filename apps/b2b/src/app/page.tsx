@@ -4,11 +4,11 @@ import { gatewayApi } from '@/lib/features/api/gatewayApi';
 
 const Home = () => {
   const { data: authData } = gatewayApi.usePollingAuthQuery(undefined, {
-    pollingInterval: 25000,
+    pollingInterval: 60000,
   });
 
   const { data: b2bData } = gatewayApi.usePollingB2BQuery(undefined, {
-    pollingInterval: 30000,
+    pollingInterval: 90000,
   });
 
   console.log(authData);

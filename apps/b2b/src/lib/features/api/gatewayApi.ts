@@ -123,7 +123,7 @@ export const gatewayApi = createApi({
     }),
     pollingAuth: builder.query<void, void>({
       query: () => ({
-        url: '/auth',
+        url: '/auth/admin/profile',
         method: 'GET',
       }),
     }),
