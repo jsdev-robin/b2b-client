@@ -114,5 +114,18 @@ export const gatewayApi = createApi({
     'Services',
     'Service',
   ],
-  endpoints: () => ({}),
+  endpoints: (builder) => ({
+    pollingB2B: builder.query<void, void>({
+      query: () => ({
+        url: '/b2b',
+        method: 'GET',
+      }),
+    }),
+    pollingAuth: builder.query<void, void>({
+      query: () => ({
+        url: '/auth',
+        method: 'GET',
+      }),
+    }),
+  }),
 });
